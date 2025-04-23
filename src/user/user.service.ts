@@ -1,20 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-// import { User } from './user.model';
 import { User } from './models/user.model';
+import { Profile } from '../profile/models/profile.model';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User)
-    private userModel: typeof User,
+    private readonly userModel: typeof User,
   ) {}
 
-  async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ where: { email } });
+  async findById(id: number): Promise<User> {
+    const user = await this.userModel.findByPk(id, {
+      include: [Profile],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return user;
   }
 
-  async findById(id: string): Promise<User | null> {
-    return this.userModel.findByPk(id);
+  async findByUsername(username: string): Promise<User> {
+    const user = await this.userModel.findOne({
+      where: { username },
+      include: [Profile],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with username ${username} not found`);
+    }
+
+    return user;
+  }
+
+  async getCurrentUserWithProfile(userId: number): Promise<User> {
+    return this.findById(userId);
   }
 }

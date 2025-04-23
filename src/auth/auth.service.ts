@@ -13,6 +13,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize-typescript';
+import { JwtUserPayload, UserType } from './interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -120,7 +121,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { username: user.username, sub: user.id, role: user.role };
+    // Create payload matching our JwtUserPayload interface
+    const payload: JwtUserPayload = { 
+      username: user.username, 
+      sub: user.id, 
+      role: user.role as UserType 
+    };
     const accessToken = this.jwtService.sign(payload);
 
     // Update user with new access token

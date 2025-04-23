@@ -3,8 +3,6 @@ import {
     Get,
     Put,
     Body,
-    Param,
-    ParseIntPipe,
     UseGuards,
     Req,
     UploadedFile,
@@ -24,44 +22,44 @@ import {
   import { AuthGuard } from '../auth/guards/auth.guard';
   import { SingleFileUpload } from '../common/upload/file-upload.decorators';
   import { Request } from 'express';
+  import { CurrentUser } from '../auth/decorators/current-user.decorator';
+  import { JwtUserPayload } from '../auth/interfaces/user.interface';
   
   @ApiTags('profile')
   @Controller('profile')
   @ApiBearerAuth('access-token')
+  @UseGuards(AuthGuard)
   export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
   
-    @Get(':userId')
-    @UseGuards(AuthGuard)
-    @ApiOperation({ summary: 'Get user profile by user ID' })
+    @Get()
+    @ApiOperation({ summary: 'Get current user profile' })
     @ApiResponse({
       status: 200,
       description: 'Profile found',
       type: ProfileResponseDto,
     })
-    async getProfile(@Param('userId', ParseIntPipe) userId: number) {
-      return await this.profileService.findByUserId(userId);
+    async getProfile(@CurrentUser() user: JwtUserPayload) {
+      return await this.profileService.findByUserId(user.sub);
     }
   
-    @Put(':userId')
-    @UseGuards(AuthGuard)
-    @ApiOperation({ summary: 'Update user profile' })
+    @Put()
+    @ApiOperation({ summary: 'Update current user profile' })
     @ApiResponse({
       status: 200,
       description: 'Profile updated',
       type: ProfileResponseDto,
     })
     async updateProfile(
-      @Param('userId', ParseIntPipe) userId: number,
+      @CurrentUser() user: JwtUserPayload,
       @Body() profileDto: ProfileDto,
     ) {
-      return await this.profileService.update(userId, profileDto);
+      return await this.profileService.update(user.sub, profileDto);
     }
   
-    @Post(':userId/upload-image')
-    @UseGuards(AuthGuard)
+    @Post('upload-image')
     @HttpCode(HttpStatus.OK)
-    @ApiOperation({ summary: 'Upload profile image' })
+    @ApiOperation({ summary: 'Upload profile image for current user' })
     @ApiResponse({
       status: 200,
       description: 'Profile image uploaded',
@@ -69,10 +67,10 @@ import {
     })
     @SingleFileUpload('profileImage')
     async uploadProfileImage(
-      @Param('userId', ParseIntPipe) userId: number,
+      @CurrentUser() user: JwtUserPayload,
       @UploadedFile() file: Express.Multer.File,
       @Req() req: Request,
     ) {
-      return await this.profileService.updateProfileImage(userId, file, req);
+      return await this.profileService.updateProfileImage(user.sub, file, req);
     }
   }
