@@ -1,6 +1,6 @@
 import { Controller, Post, Body, HttpCode, HttpStatus, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiOperation, ApiResponse, ApiTags, ApiHeader } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { Public } from './decorators/public.decorator';
@@ -18,9 +18,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({ status: 201, description: 'User successfully registered', type: UserResponseDto })
   async register(@Body() registerDto: RegisterDto) {
-    const user = await this.authService.register(registerDto);
-    const { password, access_token, ...result } = user.get({ plain: true });
-   
+    const result = await this.authService.register(registerDto);
     return result;
   }
 
@@ -40,10 +38,9 @@ export class AuthController {
     }
   })
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {
-    const user = await this.authService.login(loginDto);
-    const { password, access_token, ...result } = user.get({ plain: true });
+    const { user, access_token } = await this.authService.login(loginDto);
     
     res.setHeader('Authorization', `Bearer ${access_token}`);
-    return res.json(result);
+    return res.json(user);
   }
 }

@@ -1,39 +1,81 @@
-import { Table, Column, Model, DataType, PrimaryKey, Default, AllowNull } from 'sequelize-typescript';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  Column,
+  Model,
+  Table,
+  DataType,
+  BeforeCreate,
+  BeforeUpdate,
+  HasOne,
+} from 'sequelize-typescript';
+// import { Profile } from '../../profile/models/profile.model';
+import { Profile } from 'src/profile/models/profile.model';
 
-@Table({ tableName: 'users' })
-export class User extends Model<User> {
-  @PrimaryKey
-  @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
-  id: string;
+@Table({
+  tableName: 'users',
+  timestamps: true,
+})
+export class User extends Model {
+  @Column({
+    type: DataType.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  })
+  id: number;
 
-  @AllowNull(false)
   @Column({
     type: DataType.STRING,
+    allowNull: false,
+  })
+  name: string;
+
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+  })
+  username: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
     unique: true,
   })
   email: string;
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  name: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
+  phoneNumber: string;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   password: string;
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.ENUM('user', 'admin'),
+    defaultValue: 'user',
+  })
   role: string;
 
-  @AllowNull(true)
-  @Column(DataType.TEXT)
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
   access_token: string;
 
-  @Column(DataType.DATE)
-  createdAt: Date;
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  isVerified: boolean;
 
-  @Column(DataType.DATE)
-  updatedAt: Date;
+  @HasOne(() => Profile)
+  profile: Profile;
+
+  // No need to store confirmPassword in the database
+  // It will be used only for validation in DTO
 }
