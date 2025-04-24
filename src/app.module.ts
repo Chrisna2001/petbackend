@@ -18,6 +18,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { User } from './user/models/user.model';
 import { ProfileModule } from './profile/profile.module';
 import { GlobalUploadModule } from './common/upload/global-upload.module';
+import { PetsModule } from './pets/pets.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { GlobalUploadModule } from './common/upload/global-upload.module';
     AuthModule,
     UserModule,
     ProfileModule,
+    PetsModule,
     GlobalUploadModule,
   ],
   controllers: [AppController],
