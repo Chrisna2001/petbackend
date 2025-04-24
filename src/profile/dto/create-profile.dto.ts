@@ -6,21 +6,10 @@ import {
   Max,
   IsString,
   IsEnum,
-  IsUrl,
   MaxLength,
 } from 'class-validator';
 
-export class ProfileDto {
-  @ApiProperty({
-    example: 'http://example.com/uploads/profile-123.jpg',
-    description: 'URL to profile image',
-    required: false,
-  })
-  @IsOptional()
-  @IsString()
-  @IsUrl({ protocols: ['http', 'https'], require_protocol: true }, { message: 'Profile image must be a valid URL' })
-  profileImage?: string;
-
+export class CreateProfileDto {
   @ApiProperty({
     example: 30,
     description: 'User age',

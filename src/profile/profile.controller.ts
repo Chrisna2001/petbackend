@@ -54,6 +54,7 @@ import {
       @CurrentUser() user: JwtUserPayload,
       @Body() profileDto: ProfileDto,
     ) {
+      // Allow updating all profile fields
       return await this.profileService.update(user.sub, profileDto);
     }
   

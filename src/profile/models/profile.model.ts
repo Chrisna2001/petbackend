@@ -30,24 +30,32 @@ import {
     @Column({
       type: DataType.STRING,
       allowNull: true,
+      comment: 'URL to the profile image',
     })
     profileImage: string;
   
     @Column({
       type: DataType.INTEGER,
       allowNull: true,
+      comment: 'User age in years',
+      validate: {
+        min: 0,
+        max: 120,
+      },
     })
     age: number;
   
     @Column({
       type: DataType.ENUM('male', 'female', 'other'),
       allowNull: true,
+      comment: 'User sex/gender identity',
     })
     sex: string;
   
     @Column({
       type: DataType.STRING,
       allowNull: true,
+      comment: 'Current location of the user',
     })
     currentLocation: string;
   

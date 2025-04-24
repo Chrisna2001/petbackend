@@ -1,5 +1,3 @@
-
-// User migration
 // migrations/YYYYMMDDHHMMSS-create-users.js
 'use strict';
 
@@ -14,38 +12,46 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        comment: 'Full name of the user'
       },
       username: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        comment: 'Unique username for login'
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        comment: 'Email address of the user'
       },
       phoneNumber: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        comment: 'Phone number with country code'
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        comment: 'Hashed password'
       },
       role: {
         type: Sequelize.ENUM('user', 'admin'),
-        defaultValue: 'user'
+        defaultValue: 'user',
+        comment: 'User role for authorization'
       },
       access_token: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        comment: 'JWT token for authentication'
       },
       isVerified: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+        comment: 'Whether the user account is verified'
       },
       createdAt: {
         allowNull: false,

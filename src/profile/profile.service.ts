@@ -27,10 +27,17 @@ export class ProfileService {
     return profile;
   }
 
+  /**
+   * Update profile with provided details
+   * This method allows updating all profile fields that are provided in the DTO
+   */
   async update(userId: number, profileDto: ProfileDto): Promise<Profile> {
     const profile = await this.findByUserId(userId);
     
-    await profile.update(profileDto);
+    // Update all fields provided in the DTO
+    await profile.update({
+      ...profileDto
+    });
     
     return profile;
   }

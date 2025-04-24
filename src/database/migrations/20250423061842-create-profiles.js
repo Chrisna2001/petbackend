@@ -1,4 +1,3 @@
-// Profile migration
 // migrations/YYYYMMDDHHMMSS-create-profiles.js
 'use strict';
 
@@ -19,23 +18,32 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        comment: 'Foreign key reference to users table'
       },
       profileImage: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        comment: 'URL to the profile image'
       },
       age: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: true,
+        comment: 'User age in years',
+        validate: {
+          min: 0,
+          max: 120
+        }
       },
       sex: {
         type: Sequelize.ENUM('male', 'female', 'other'),
-        allowNull: true
+        allowNull: true,
+        comment: 'User sex/gender identity'
       },
       currentLocation: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        comment: 'Current location of the user'
       },
       createdAt: {
         allowNull: false,
