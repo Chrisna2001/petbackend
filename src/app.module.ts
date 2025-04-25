@@ -19,6 +19,7 @@ import { User } from './user/models/user.model';
 import { ProfileModule } from './profile/profile.module';
 import { GlobalUploadModule } from './common/upload/global-upload.module';
 import { PetsModule } from './pets/pets.module';
+import { PetListingsModule } from './pet-listings/pet-listing.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { PetsModule } from './pets/pets.module';
     UserModule,
     ProfileModule,
     PetsModule,
+    PetListingsModule,
     GlobalUploadModule,
   ],
   controllers: [AppController],
