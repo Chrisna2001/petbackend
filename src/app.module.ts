@@ -20,6 +20,7 @@ import { ProfileModule } from './profile/profile.module';
 import { GlobalUploadModule } from './common/upload/global-upload.module';
 import { PetsModule } from './pets/pets.module';
 import { PetListingsModule } from './pet-listings/pet-listing.module';
+import { ShopsModule } from './shops/shops.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { PetListingsModule } from './pet-listings/pet-listing.module';
     ProfileModule,
     PetsModule,
     PetListingsModule,
+    ShopsModule,
     GlobalUploadModule,
   ],
   controllers: [AppController],
