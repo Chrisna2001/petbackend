@@ -21,6 +21,7 @@ import { GlobalUploadModule } from './common/upload/global-upload.module';
 import { PetsModule } from './pets/pets.module';
 import { PetListingsModule } from './pet-listings/pet-listing.module';
 import { ShopsModule } from './shops/shops.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ShopsModule } from './shops/shops.module';
     PetsModule,
     PetListingsModule,
     ShopsModule,
+    AppointmentsModule,
     GlobalUploadModule,
   ],
   controllers: [AppController],
