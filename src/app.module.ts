@@ -4,10 +4,8 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TestModule } from './test/test.module';
-import { LogsModule } from './logs/logs.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { LoggingMiddleware } from './middlewares/logging.middleware';
-import { Log } from './logs/models/logs.model';
 import { CorsMiddleware } from './middlewares/cors.middleware';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { GlobalExceptionFilter } from './exceptionfilter/global-exception.filter';
@@ -23,6 +21,8 @@ import { PetsModule } from './pets/pets.module';
 import { PetListingsModule } from './pet-listings/pet-listing.module';
 import { ShopsModule } from './shops/shops.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { LogsModule } from './logs/logs/logs.module';
+import { Log } from './logs/logs/models/logs.model';
 
 @Module({
   imports: [

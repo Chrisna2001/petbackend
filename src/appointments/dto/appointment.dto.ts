@@ -263,8 +263,8 @@ export class FilterAppointmentDto {
     required: false,
   })
   @IsOptional()
-  @IsInt()
-  @IsPositive()
+  // @IsInt()
+  // @IsPositive()
   shopId?: number;
 
   @ApiProperty({
