@@ -27,16 +27,12 @@ import {
   CancelAppointmentDto,
   AppointmentResponseDto,
   FilterAppointmentDto,
-  TimeSlotResponseDto,
-  SetShopScheduleDto,
-  GetAvailableSlotsDto,
 } from './dto/appointment.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtUserPayload } from '../auth/interfaces/user.interface';
 // import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles } from 'src/auth/guards/roles.decorator';
-import { ShopSchedule } from '../shops/models/shop-schedule.model';
 import { AppointmentStatus } from './models/appointment.model';
 
 @ApiTags('appointments')
@@ -272,86 +268,5 @@ export class AppointmentsController {
     @Param('id', ParseIntPipe) id: number,
   ) {
     return await this.appointmentsService.complete(id, shopId);
-  }
-
-  @Get('shop/:shopId/slots')
-  @ApiOperation({ summary: 'Get available time slots for a shop on a specific date' })
-  @ApiParam({ name: 'shopId', description: 'Shop ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of available time slots',
-    type: [TimeSlotResponseDto],
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Shop not found',
-  })
-  async getAvailableTimeSlots(
-    @Param('shopId', ParseIntPipe) shopId: number,
-    @Query() queryParams: GetAvailableSlotsDto,
-  ) {
-    return await this.appointmentsService.getAvailableTimeSlots(shopId, queryParams.date);
-  }
-
-  @Post('shop/:shopId/schedule')
-  @Roles('admin', 'shop')
-  @ApiOperation({ summary: 'Set shop schedule (shop/admin only)' })
-  @ApiParam({ name: 'shopId', description: 'Shop ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Shop schedule updated',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'Forbidden - not your shop',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Shop not found',
-  })
-  async setShopSchedule(
-    @Param('shopId', ParseIntPipe) shopId: number,
-    @Body() scheduleDto: SetShopScheduleDto,
-  ) {
-    return await this.appointmentsService.setShopSchedule(shopId, scheduleDto);
-  }
-
-  @Get('shop/:shopId/schedule')
-  @ApiOperation({ summary: 'Get shop schedule' })
-  @ApiParam({ name: 'shopId', description: 'Shop ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Shop schedule',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Shop not found',
-  })
-  async getShopSchedule(@Param('shopId', ParseIntPipe) shopId: number) {
-    return await this.appointmentsService.getShopSchedule(shopId);
-  }
-
-  @Post('shop/:shopId/schedule/initialize')
-  @Roles('admin', 'shop')
-  @ApiOperation({ summary: 'Initialize default shop schedule (shop/admin only)' })
-  @ApiParam({ name: 'shopId', description: 'Shop ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Default shop schedule created',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'Forbidden - not your shop',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Shop not found',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Schedule already exists',
-  })
-  async initializeDefaultSchedule(@Param('shopId', ParseIntPipe) shopId: number) {
-    return await this.appointmentsService.initializeDefaultSchedule(shopId);
   }
 }

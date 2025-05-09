@@ -10,11 +10,7 @@ import {
   Matches,
   MaxLength,
   IsNotEmpty,
-  ArrayMinSize,
 } from 'class-validator';
-
-// DTO for appointment responses
-
 import { AppointmentStatus } from '../models/appointment.model';
 import { ShopResponseDto } from '../../shops/dto/shop.dto';
 import { UserResponseDto } from '../../user/dto/user-response.dto';
@@ -150,8 +146,7 @@ export class CancelAppointmentDto {
   cancellationReason: string;
 }
 
-
-
+// DTO for appointment responses
 export class AppointmentResponseDto {
   @ApiProperty({
     example: 1,
@@ -287,116 +282,4 @@ export class FilterAppointmentDto {
   })
   @IsOptional()
   past?: boolean;
-}
-
-// DTO for shop time slots
-export class TimeSlotResponseDto {
-  @ApiProperty({
-    example: '09:00',
-    description: 'Start time of the slot (HH:MM)',
-  })
-  startTime: string;
-
-  @ApiProperty({
-    example: '10:00',
-    description: 'End time of the slot (HH:MM)',
-  })
-  endTime: string;
-
-  @ApiProperty({
-    example: true,
-    description: 'Whether the slot is available for booking',
-  })
-  available: boolean;
-
-  @ApiProperty({
-    example: 2,
-    description: 'Number of appointments already booked in this slot',
-    required: false,
-  })
-  bookedCount?: number;
-
-  @ApiProperty({
-    example: 3,
-    description: 'Maximum number of appointments allowed per slot',
-    required: false,
-  })
-  maxAppointments?: number;
-}
-
-// DTO for shop schedule
-export class ShopScheduleDto {
-  @ApiProperty({
-    example: 'monday',
-    description: 'Day of the week',
-    enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
-  })
-  @IsEnum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
-  day: string;
-
-  @ApiProperty({
-    example: '09:00',
-    description: 'Opening time (HH:MM)',
-  })
-  @IsString()
-  @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: 'Time must be in format HH:MM (24-hour)',
-  })
-  openTime: string;
-
-  @ApiProperty({
-    example: '18:00',
-    description: 'Closing time (HH:MM)',
-  })
-  @IsString()
-  @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: 'Time must be in format HH:MM (24-hour)',
-  })
-  closeTime: string;
-
-  @ApiProperty({
-    example: true,
-    description: 'Whether the shop is open on this day',
-  })
-  @IsOptional()
-  isOpen?: boolean;
-
-  @ApiProperty({
-    example: 60,
-    description: 'Duration of each appointment slot in minutes',
-  })
-  @IsOptional()
-  @IsInt()
-  @IsPositive()
-  slotDuration?: number;
-
-  @ApiProperty({
-    example: 2,
-    description: 'Maximum number of appointments per time slot',
-  })
-  @IsOptional()
-  @IsInt()
-  @IsPositive()
-  maxAppointmentsPerSlot?: number;
-}
-
-// DTO for setting shop schedule
-export class SetShopScheduleDto {
-  @ApiProperty({
-    type: [ShopScheduleDto],
-    description: 'Weekly schedule for the shop',
-  })
-  @IsArray()
-  @ArrayMinSize(1)
-  schedule: ShopScheduleDto[];
-}
-
-// DTO for getting available slots
-export class GetAvailableSlotsDto {
-  @ApiProperty({
-    example: '2023-07-15',
-    description: 'Date to check for available slots (YYYY-MM-DD)',
-  })
-  @IsDateString()
-  date: string;
 }

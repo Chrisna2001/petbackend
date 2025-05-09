@@ -1,6 +1,3 @@
-
-
-// migrations/YYYYMMDDHHMMSS-create-appointments.js
 'use strict';
 
 module.exports = {

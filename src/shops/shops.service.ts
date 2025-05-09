@@ -122,8 +122,8 @@ import { Shop } from './models/shop.model';
      */
     async findAll(searchDto?: SearchShopDto): Promise<Shop[]> {
       const whereClause: any = {
-        isActive: true,
-        isVerified: true,
+        // isActive: true,
+        // isVerified: true,
       };
   
       // Apply filters if provided

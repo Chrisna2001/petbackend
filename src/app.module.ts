@@ -19,6 +19,7 @@ import { User } from './user/models/user.model';
 import { ProfileModule } from './profile/profile.module';
 import { GlobalUploadModule } from './common/upload/global-upload.module';
 import { PetsModule } from './pets/pets.module';
+// import { PetListingsModule } from './pet-listings/pet-listings.module';
 import { PetListingsModule } from './pet-listings/pet-listing.module';
 import { ShopsModule } from './shops/shops.module';
 import { AppointmentsModule } from './appointments/appointments.module';
@@ -42,9 +43,9 @@ import { AppointmentsModule } from './appointments/appointments.module';
       global: true,
     }),
     SequelizeModule.forFeature([Log]),
-    LogsModule,
     DatabaseModule,
     TestModule,
+    LogsModule,
     AuthModule,
     UserModule,
     ProfileModule,
