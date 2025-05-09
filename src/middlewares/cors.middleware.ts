@@ -7,10 +7,18 @@ import { ConfigService } from '@nestjs/config';
 export class CorsMiddleware implements NestMiddleware {
   constructor(private configService: ConfigService) {}
   use(req: Request, res: Response, next: NextFunction) {
-    const allowedOrigins = ['http://localhost:3000', 'localhost:3000'];
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'localhost:3000',
+      'http://localhost:5000',
+      'localhost:5000',
+      'http://localhost:8000',
+      'localhost:8000',
+    ];
     const apiUrl = this.configService.get<string>('API_URL');
     // const apiUrl = '7abd-103-99-218-90.ngrok-free.app';
     res.header('Access-Control-Allow-Origin', 'http://localhost:8000');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
     res.header(
       'Access-Control-Allow-Methods',
       'GET, POST, PUT, DELETE, OPTIONS',
@@ -31,6 +39,7 @@ export class CorsMiddleware implements NestMiddleware {
 
     for (let i = 0; i <= allowedOrigins.length - 1; i++) {
       existInRawHeaders = rawHeaders.find((item) => item === allowedOrigins[i]);
+      console.log(existInRawHeaders, rawHeaders);
     }
 
     // Check if origin matches API_URL from environment
@@ -41,9 +50,9 @@ export class CorsMiddleware implements NestMiddleware {
     }
 
     // swagger
-    if (!allowedOrigins.includes(existInRawHeaders)) {
-      return res.status(403).json({ message: 'Forbidden Resource!' });
-    }
+    // if (!allowedOrigins.includes(existInRawHeaders)) {
+    //   return res.status(403).json({ message: 'Forbidden Resource!' });
+    // }
 
     // Production
     // if (!allowedOrigins.includes(origin)) {

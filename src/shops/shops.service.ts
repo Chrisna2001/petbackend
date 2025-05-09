@@ -37,13 +37,21 @@ import { Shop } from './models/shop.model';
      * Register a new shop
      */
     async register(registerShopDto: RegisterShopDto): Promise<Shop> {
+
+      console.log('this is a conmsole...........', registerShopDto.username);
+
+      
       // Check if username already exists
       const existingUsername = await this.shopModel.findOne({
         where: { username: registerShopDto.username },
       });
+
+      console.log('this is a conmsole...........', existingUsername);
       if (existingUsername) {
         throw new ConflictException('Username already in use');
       }
+
+      
   
       // Check if GSTIN number already exists
       const existingGstin = await this.shopModel.findOne({
@@ -68,6 +76,8 @@ import { Shop } from './models/shop.model';
   
       // Hash password
       const hashedPassword = await bcrypt.hash(registerShopDto.password, 10);
+
+     
   
       // Create shop with hashed password
       const { confirmPassword, ...shopData } = registerShopDto;
@@ -122,8 +132,8 @@ import { Shop } from './models/shop.model';
      */
     async findAll(searchDto?: SearchShopDto): Promise<Shop[]> {
       const whereClause: any = {
-        isActive: true,
-        isVerified: true,
+        // isActive: true,
+        // isVerified: true,
       };
   
       // Apply filters if provided
@@ -158,7 +168,6 @@ import { Shop } from './models/shop.model';
         where: whereClause,
         order: [['createdAt', 'DESC']],
       });
-  
       // Remove sensitive data
       return shops.map(shop => {
         const { password, access_token, ...result } = shop.get({ plain: true });
@@ -173,8 +182,8 @@ import { Shop } from './models/shop.model';
       const shops = await this.shopModel.findAll({
         where: { 
           zone,
-          isActive: true,
-          isVerified: true, 
+          // isActive: true,
+          // isVerified: true, 
         },
         order: [['createdAt', 'DESC']],
       });

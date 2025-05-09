@@ -46,9 +46,9 @@ export class AppointmentsService {
     }
 
     // Validate shop is active and verified
-    if (!shop.isActive || !shop.isVerified) {
-      throw new BadRequestException('Shop is not available for booking');
-    }
+    // if (!shop.isActive || !shop.isVerified) {
+    //   throw new BadRequestException('Shop is not available for booking');
+    // }
 
     // Validate service is offered by the shop
     if (!shop.servicesOffered.includes(createAppointmentDto.service)) {

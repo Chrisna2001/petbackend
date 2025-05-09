@@ -2,7 +2,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { InjectModel } from '@nestjs/sequelize';
-import { Log } from 'src/logs/models/logs.model';
+import { Log } from 'src/logs/logs/models/logs.model';
 
 @Injectable()
 export class LoggingMiddleware implements NestMiddleware {
